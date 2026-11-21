@@ -1,0 +1,21 @@
+# Build directories
+build/
+bin/
+lib/
+out/
+.ninja_*
+
+# IDE and Editor files
+.vs/
+.vscode/
+*.user
+*.suo
+*.VC.db
+
+# Runtime and test data
+test_user_data/
+AppData/
+Logs/
+*.log
+*.json.bak
+test_*.json

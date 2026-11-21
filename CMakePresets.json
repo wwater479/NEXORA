@@ -1,0 +1,70 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-msvc-x64-release",
+      "displayName": "Windows x64 Release (MSVC)",
+      "description": "Production release build with full optimizations for Windows 10/11 x64",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/windows-x64-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "NEXORA_ENABLE_CEF": "ON"
+      }
+    },
+    {
+      "name": "windows-msvc-x64-debug",
+      "displayName": "Windows x64 Debug (MSVC)",
+      "description": "Debug build with symbols and memory assertions",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/windows-x64-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "NEXORA_ENABLE_CEF": "ON"
+      }
+    },
+    {
+      "name": "linux-ninja-release",
+      "displayName": "Linux / CI x64 Release (Ninja)",
+      "description": "Cross-platform test and headless compilation target",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/linux-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-release",
+      "configurePreset": "windows-msvc-x64-release",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-debug",
+      "configurePreset": "windows-msvc-x64-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "linux-release",
+      "configurePreset": "linux-ninja-release",
+      "configuration": "Release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "all-tests",
+      "configurePreset": "linux-ninja-release",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}
