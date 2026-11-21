@@ -1,0 +1,5 @@
+Lifecycle_State,Working_Set_MB,Private_Bytes_MB,Commit_MB,GPU_Memory_MB,Renderer_Process_Count,Metadata_Cost_KB
+ACTIVE,62.1,45.2,58,12.5,1,0
+BACKGROUND,43.5,31.6,40.6,8,1,0
+FROZEN,18.4,12,16.2,2,1,0
+DISCARDED,0,0,0,0,0,2.4

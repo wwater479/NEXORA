@@ -1,0 +1,3 @@
+Browser,Workload,Active_Tabs,Frozen_Tabs,Discarded_Tabs,Total_Tabs,Working_Set_MB,Private_Bytes_MB,Process_Count
+Google Chrome,Unmanaged Background,1,0,0,20,1555,1170,21
+NEXORA,Lifecycle Background,1,2,17,20,238,169,4

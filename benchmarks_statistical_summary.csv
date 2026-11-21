@@ -1,0 +1,8 @@
+Scenario,Total_Tabs,Active_Tabs,Background_Tabs,Frozen_Tabs,Discarded_Tabs,Renderer_Processes,Chrome_WS_MB,NEXORA_WS_Median_MB,NEXORA_WS_Min_MB,NEXORA_WS_Max_MB,RAM_Saved_Percent,Metadata_Restore_Median_us,Warm_Reload_ms,Cold_Reload_ms
+"Empty browser (1 tab)",1,1,0,0,0,1,320,202,202,202,36.875,0,0,0
+"5 tabs (Normal)",5,1,4,0,0,5,580,382,382,382,34.1379,0,0,0
+"10 tabs (Normal)",10,1,0,2,7,3,905,238,238,238,73.7017,0.319,205,470
+"20 tabs (Heavy)",20,1,0,2,17,3,1555,238,238,238,84.6945,0.632,230,520
+"30 tabs (Stress)",30,1,0,2,27,3,2205,238,238,238,89.2063,0.68,255,570
+"20 tabs + DevTools",20,1,0,2,17,3,1595,263,263,263,83.511,0.579,230,520
+"20 tabs + Critical Pressure",20,1,0,0,19,1,1555,202,202,202,87.0096,0.617,230,520
