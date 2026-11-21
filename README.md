@@ -3,7 +3,7 @@
 [![Build & Test](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11%20x64-blue.svg)]()
 [![Language](https://img.shields.io/badge/language-C%2B%2B17%20%2F%20C%2B%2B20-orange.svg)]()
-[![Engine](https://img.shields.io/badge/engine-CEF%20%2F%20Chromium%20144-lightgrey.svg)]()
+[![Engine](https://img.shields.io/badge/engine-CEF%20%2F%20Chromium%20120-lightgrey.svg)]()
 [![Memory Reduction](https://img.shields.io/badge/RAM%20Saved-84%25--89%25-success.svg)]()
 
 > **NEXORA** is a next-generation Windows desktop web browser designed from the ground up for **minimum practical memory consumption** without sacrificing Chrome-like usability, web standards compatibility, or process isolation security.
@@ -38,7 +38,7 @@
 
 ## Memory & Performance Benchmarks
 
-Measured on Windows 11 x64 against standard Chromium (Google Chrome / Edge v144 base):
+Measured on Windows 11 x64 against standard Chromium (Google Chrome / Edge v120 base):
 
 ```
 ==============================================================================================================================================

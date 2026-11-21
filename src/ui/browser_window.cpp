@@ -40,6 +40,10 @@ BrowserWindow::BrowserWindow(int window_id)
             }
         },
         [this](int64_t tab_id) {
+            auto b = GetBrowserForTab(tab_id);
+            if (b && !b->GetCurrentUrl().empty() && b->GetCurrentUrl() != "nexora://newtab") {
+                recently_closed_tabs_.push_back({b->GetCurrentUrl(), b->GetCurrentTitle()});
+            }
             CloseBrowserForTab(tab_id);
             memory::TabLifecycleManager::Instance().UnregisterTab(tab_id);
         },
@@ -324,14 +328,41 @@ void BrowserWindow::ToggleFullscreen() {
     LOG_INFO << "Fullscreen toggled: " << (is_fullscreen_ ? "ON" : "OFF");
 }
 
+void BrowserWindow::ReopenLastClosedTab() {
+    if (recently_closed_tabs_.empty()) return;
+    auto last_tab = recently_closed_tabs_.back();
+    recently_closed_tabs_.pop_back();
+
+    int64_t new_id = tab_bar_.CreateTab(last_tab.second, last_tab.first);
+    CreateBrowserForTab(new_id, last_tab.first);
+    memory::TabLifecycleManager::Instance().RegisterTab(new_id, window_id_, last_tab.first, last_tab.second);
+    LOG_INFO << "Reopened last closed tab: " << last_tab.first;
+}
+
 void BrowserWindow::HandleKeyDown(int virtual_key, bool ctrl_pressed, bool shift_pressed, bool alt_pressed) {
-    (void)alt_pressed;
+    if (alt_pressed) {
+        if (virtual_key == 0x25 || virtual_key == 0x27) { // Left / Right arrows
+            if (virtual_key == 0x25) {
+                LOG_INFO << "Shortcut: Alt+Left (Back)";
+                GoBackCurrentTab();
+            } else {
+                LOG_INFO << "Shortcut: Alt+Right (Forward)";
+                GoForwardCurrentTab();
+            }
+            return;
+        } else if (virtual_key == 'D' || virtual_key == 'd') {
+            LOG_INFO << "Shortcut: Alt+D (Focus Omnibox)";
+            return;
+        }
+    }
+
     if (ctrl_pressed) {
         switch (virtual_key) {
             case 'T':
             case 't': {
                 if (shift_pressed) {
                     LOG_INFO << "Shortcut: Ctrl+Shift+T (Reopen Closed Tab)";
+                    ReopenLastClosedTab();
                 } else {
                     LOG_INFO << "Shortcut: Ctrl+T (New Tab)";
                     int64_t id = tab_bar_.CreateTab("New Tab", "nexora://newtab");
@@ -351,8 +382,14 @@ void BrowserWindow::HandleKeyDown(int virtual_key, bool ctrl_pressed, bool shift
             }
             case 'R':
             case 'r': {
-                LOG_INFO << "Shortcut: Ctrl+R (Reload)";
-                ReloadCurrentTab();
+                if (shift_pressed) {
+                    LOG_INFO << "Shortcut: Ctrl+Shift+R (Hard Reload)";
+                    auto b = GetActiveBrowser();
+                    if (b) b->Reload(true);
+                } else {
+                    LOG_INFO << "Shortcut: Ctrl+R (Reload)";
+                    ReloadCurrentTab();
+                }
                 break;
             }
             case 'L':
@@ -406,7 +443,12 @@ void BrowserWindow::HandleKeyDown(int virtual_key, bool ctrl_pressed, bool shift
     } else {
         switch (virtual_key) {
             case 0x74: // F5
-                ReloadCurrentTab();
+                if (ctrl_pressed) {
+                    auto b = GetActiveBrowser();
+                    if (b) b->Reload(true);
+                } else {
+                    ReloadCurrentTab();
+                }
                 break;
             case 0x7A: // F11
                 ToggleFullscreen();

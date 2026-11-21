@@ -56,6 +56,8 @@ public:
     bool IsFullscreen() const { return is_fullscreen_; }
     void ToggleFullscreen();
 
+    void ReopenLastClosedTab();
+
     // Factory Win32 Window Procedure
 #if defined(_WIN32)
     static LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
@@ -76,6 +78,7 @@ private:
     DownloadUI download_ui_;
 
     std::map<int64_t, std::shared_ptr<engine::BrowserInstance>> browsers_;
+    std::vector<std::pair<std::string, std::string>> recently_closed_tabs_; // <url, title>
 
     Rect tab_bar_bounds_;
     Rect toolbar_bounds_;

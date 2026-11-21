@@ -15,8 +15,8 @@ enum class UpdateChannel {
 struct VersionInfo {
     std::string browser_name = "NEXORA";
     std::string browser_version = "1.0.0-alpha";
-    std::string chromium_version = "144.0.7559.59";
-    std::string cef_version = "144.0.6+g5f7e671";
+    std::string chromium_version = "120.0.6099.129";
+    std::string cef_version = "120.1.10+g38cf81d+chromium-120.0.6099.129";
     std::string os_version = "Windows 11 x64";
     std::string build_date = __DATE__;
     std::string architecture = "x64";

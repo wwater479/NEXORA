@@ -117,10 +117,44 @@ target_link_libraries(nexora_core PUBLIC nexora_util nexora_storage nexora_memor
 #
 if(WIN32)
     add_executable(NEXORA WIN32 src/main_windows.cpp)
-    target_link_libraries(NEXORA PRIVATE nexora_core)
+    target_link_libraries(NEXORA PRIVATE
+        nexora_core
+        user32
+        gdi32
+        shell32
+        comctl32
+        dwmapi
+        uxtheme
+        psapi
+        advapi32
+        shlwapi
+        ole32
+        oleaut32
+        version
+    )
 
     add_executable(NEXORA_Subprocess WIN32 src/subprocess_main.cpp)
-    target_link_libraries(NEXORA_Subprocess PRIVATE nexora_engine)
+    target_link_libraries(NEXORA_Subprocess PRIVATE
+        nexora_engine
+        user32
+        gdi32
+        shell32
+        advapi32
+        ole32
+    )
+
+    # Windows deployment rules for CEF resources & DLLs
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/third_party/cef/Release/libcef.dll")
+        add_custom_command(TARGET NEXORA POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${CMAKE_CURRENT_SOURCE_DIR}/third_party/cef/Release"
+                "$<TARGET_FILE_DIR:NEXORA>"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+                "${CMAKE_CURRENT_SOURCE_DIR}/third_party/cef/Resources"
+                "$<TARGET_FILE_DIR:NEXORA>"
+            COMMENT "Deploying CEF binaries and resources to output directory"
+        )
+    endif()
 else()
     add_executable(NEXORA src/main_windows.cpp)
     target_link_libraries(NEXORA PRIVATE nexora_core)

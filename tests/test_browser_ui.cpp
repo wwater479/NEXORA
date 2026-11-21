@@ -113,11 +113,26 @@ TEST_CASE(BrowserUI, BrowserWindowLayoutAndShortcuts) {
     ASSERT_EQ(win.GetToolBarBounds().height, 42);
     ASSERT_TRUE(win.GetWebContentsBounds().height > 600);
 
-    // Test Ctrl+T shortcut
+    // Test Ctrl+T shortcut (New Tab)
     win.HandleKeyDown('T', true, false, false);
     ASSERT_EQ(win.GetTabBar().GetTabCount(), 2);
 
-    // Test Ctrl+W shortcut
+    // Navigate second tab to a website
+    win.NavigateCurrentTab("https://github.com/wwater479/NEXORA");
+
+    // Test Ctrl+W shortcut (Close Tab)
     win.HandleKeyDown('W', true, false, false);
     ASSERT_EQ(win.GetTabBar().GetTabCount(), 1);
+
+    // Test Ctrl+Shift+T shortcut (Reopen Closed Tab)
+    win.HandleKeyDown('T', true, true, false);
+    ASSERT_EQ(win.GetTabBar().GetTabCount(), 2);
+    ASSERT_EQ(win.GetTabBar().GetActiveTab()->GetUrl(), "https://github.com/wwater479/NEXORA");
+
+    // Test Alt+Left & Alt+Right shortcuts
+    win.HandleKeyDown(0x25, false, false, true); // Alt+Left (Back)
+    win.HandleKeyDown(0x27, false, false, true); // Alt+Right (Forward)
+
+    // Test Ctrl+Shift+R (Hard Reload)
+    win.HandleKeyDown('R', true, true, false);
 }

@@ -51,6 +51,20 @@ void CefClientHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
 void CefClientHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
     LOG_INFO << "Browser closing for tab " << tab_id_;
 }
+
+bool CefClientHandler::OnCertificateError(
+    CefRefPtr<CefBrowser> browser,
+    cef_errorcode_t cert_error,
+    const CefString& request_url,
+    CefRefPtr<CefSSLInfo> ssl_info,
+    CefRefPtr<CefCallback> callback) {
+    LOG_WARN << "TLS Certificate error on tab " << tab_id_ << " (" << request_url.ToString() << "): error=" << cert_error;
+    if (callbacks_.on_security_state_change) {
+        callbacks_.on_security_state_change(tab_id_, false);
+    }
+    // Return false to enforce standard Chromium secure TLS rejection (never silently bypass)
+    return false;
+}
 #endif
 
 } // namespace nexora::engine

@@ -3,7 +3,7 @@
 ## 1. Test Methodology & Environment
 
 - **Operating System**: Windows 11 x64 / Linux x64 Test Environment
-- **Comparison Targets**: Standard Google Chrome (v144 Base), Microsoft Edge (v144 Base)
+- **Comparison Targets**: Standard Google Chrome (v120 Base), Microsoft Edge (v120 Base)
 - **Metrics Collected**:
   - **Working Set (MB)**: Total physical memory currently mapped by the browser processes.
   - **Private Bytes (MB)**: Committed memory exclusive to the browser that cannot be shared with other processes.

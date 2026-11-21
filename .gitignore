@@ -14,6 +14,7 @@ out/
 
 # Runtime and test data
 test_user_data/
+test_profiles_root/
 AppData/
 Logs/
 *.log

@@ -65,6 +65,14 @@ public:
     virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
     virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) override;
 
+    // CefRequestHandler: Strict security enforcement - do not silently bypass TLS errors
+    virtual bool OnCertificateError(
+        CefRefPtr<CefBrowser> browser,
+        cef_errorcode_t cert_error,
+        const CefString& request_url,
+        CefRefPtr<CefSSLInfo> ssl_info,
+        CefRefPtr<CefCallback> callback) override;
+
     IMPLEMENT_REFCOUNTING(CefClientHandler);
 #endif
 
